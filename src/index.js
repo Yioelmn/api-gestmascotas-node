@@ -1,7 +1,7 @@
-require('dotenv').config(); // para cargar las variables de entorno desde el archivo .env
-const express = require('express');
-const cors = require('cors');
-const pool = require('./config/db'); // para levantar conexion y crear tablas
+import 'dotenv/config'; // para cargar las variables de entorno desde el archivo .env
+import express from 'express';
+import cors from 'cors';
+import { pool } from './config/db.js'; // para levantar conexion y crear tablas
 
 const app = express();
 const PORT = process.env.PORT || 3000;

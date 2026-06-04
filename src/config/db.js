@@ -1,7 +1,9 @@
 // pool es para mantener conexiones a base de datos activa y es reutilizable
-const { Pool } = require('pg');
+import pg from 'pg';
+const { Pool } = pg;
 
-const pool = new Pool({
+// se agrega export para que index lo lea ahora si
+export const pool = new Pool({
     connectionString: process.env.DATABASE_URL,  // aqui decimos donde esta el string de conexión
     ssl: { rejectUnauthorized: false} // para que node y neon se comuniquen de forma segura
 });
@@ -13,7 +15,7 @@ const initDB = async () => {
             CREATE TABLE IF NOT EXISTS mascota (
             id SERIAL PRIMARY KEY,
             nombre VARCHAR(15) NOT NULL,
-            especie VARCHAR2(15) NOT NULL,
+            especie VARCHAR(15) NOT NULL,
             raza VARCHAR(15) NOT NULL,
             sexo VARCHAR(15) NOT NULL,
             edad INTEGER NOT NULL,
@@ -56,5 +58,3 @@ const initDB = async () => {
 };
 
 initDB();
-
-module.exports = pool;
