@@ -29,7 +29,7 @@ export const etiquetasController = {
             if(!nombre_etiqueta){
                 return res.status(400).json({ error: 'El nombre de la etiqueta es requerido' });
             }
-            const nuevaEtiqueta = await etiquetaService.crear(nombre_etiqueta);
+            const nuevaEtiqueta = await etiquetasService.crear(nombre_etiqueta);
             res.status(201).json(nuevaEtiqueta);
         }catch(e){
             res.status(500).json({ error: 'Error al crear la etiqueta' });

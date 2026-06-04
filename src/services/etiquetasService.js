@@ -15,7 +15,7 @@ export const etiquetasService = {
 
     async crear(nombre_etiqueta){
         const resultado = await pool.query(
-            'INSERT INTO etiquetas (nombre_etiquetas) VALUES ($1) RETURNING *;',
+            'INSERT INTO etiquetas (nombre_etiqueta) VALUES ($1) RETURNING *;',
             [nombre_etiqueta]
         );
         return resultado.rows[0];
@@ -23,7 +23,7 @@ export const etiquetasService = {
 
     async actualizar(id, nombre_etiqueta){
         const resultado = await pool.query(
-            'UPDATE etiquetas SET nombre_etiquetas = $1 WHERE id = $2 RETURNING *;',
+            'UPDATE etiquetas SET nombre_etiqueta = $1 WHERE id = $2 RETURNING *;',
             [nombre_etiqueta, id]
         );
         return resultado.rows[0] || null;
