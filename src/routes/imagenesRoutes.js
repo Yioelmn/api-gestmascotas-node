@@ -1,9 +1,5 @@
-import {Router} from 'express';
-<<<<<<< HEAD
-import { imagenesController } from '..controllers/imagenesController.js';
-=======
+import { Router } from 'express';
 import { imagenesController } from '../controllers/imagenesController.js';
->>>>>>> feature/controller-y-service
 
 const router = Router();
 
