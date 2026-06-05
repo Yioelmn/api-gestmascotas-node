@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import { pool } from './config/db.js'; // para levantar conexion y crear tablas
 import etiquetasRoutes from './routes/etiquetasRoutes.js'; // importamos las rutas de etiquetas
-import mascotasRoutes from '.routes/mascotasaRoutes.js'; // importamos las rutas de mascotas
+import mascotasRoutes from './routes/mascotasRoutes.js'; // importamos las rutas de mascotas
 
 const app = express();
 const PORT = process.env.PORT || 3000;

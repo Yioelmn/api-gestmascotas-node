@@ -1,4 +1,4 @@
-import { mascotasService } from "../services/mascotasService";
+import { mascotasService } from "../services/mascotasService.js";
 
 export const mascotasController = {
     async obtenerTodas(req, res){
