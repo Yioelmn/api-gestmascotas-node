@@ -1,4 +1,4 @@
-import { imagenesService } from "../services/ImagenesService";
+import { imagenesService } from "../services/ImagenesService.js";
 
 export const imagenesController = {
     async crear(req, res){
