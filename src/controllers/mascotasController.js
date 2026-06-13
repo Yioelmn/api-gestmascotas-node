@@ -23,6 +23,23 @@ export const mascotasController = {
         }
     },
 
+    async obtenerPorNombre(req, res){
+        try{
+            // Captura el nombre con query params
+            const { nombre }= req.query;
+
+            if(!nombre){
+                return res.status(400).json({ error: 'Error, el parametro "nombre es requerido'});
+            }
+
+            const mascotas = await mascotasService.obtenerPorNombre(nombre);
+            res.json(mascotas);
+
+        }catch (e){
+            res.status(500).json({ error: 'Error al encontrar la mascota'})
+        }
+    },
+
     async crear (req, res){
         try{
             const{nombre, especie, raza, sexo, edad} = req.body;

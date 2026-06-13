@@ -4,6 +4,7 @@ import { mascotasController } from '../controllers/mascotasController.js';
 const router = Router();
 
 router.get('/mascotas', mascotasController.obtenerTodas);
+router.get('/mascotas/buscar', mascotasController.obtenerPorNombre);
 router.get('/mascotas/:id', mascotasController.obtenerPorId);
 router.post('/mascotas', mascotasController.crear);
 router.put('/mascotas/:id', mascotasController.actualizar);

@@ -22,6 +22,28 @@ export const mascotasService = {
         return mascotas;
     },
 
+    // buscar mascota por nombre
+    async obtenerPorNombre(nombre){
+        // busca mascotas incluso si no coincide completamente el nombre
+        const resultadoMascotas = await pool.query(
+            'SELECT * FROM mascota WHERE nombre ILIKE $1 ORDER BY id DESC;',
+            [`%${nombre}%`]
+        );
+        const mascotas = resultadoMascotas.rows;
+
+        // para que a cada mascota le aparezca imagen y etiquetas
+        for(let mascota of mascotas){
+            const imgRes = await pool.query('SELECT id, url_imagen FROM imagen_mascota WHERE mascota_id = $1;', [mascota.id]);
+            const etiqRes = await pool.query(`SELECT e.id, e.nombre_etiqueta
+                FROM etiquetas e JOIN mascota_etiqueta me ON e.id = me.etiqueta_id WHERE me.mascota_id = $1`, [mascota.id]);
+
+                mascota.imagenes = imgRes.rows;
+                mascota.etiquetas = etiqRes.rows;
+        }
+
+        return mascotas;
+    },
+
     // Get por id j
     async obtenerPorId(id){
         const resultadoMascota = await pool.query('SELECT * FROM mascota WHERE id = $1;', [id]);
