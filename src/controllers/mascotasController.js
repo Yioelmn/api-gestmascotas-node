@@ -43,13 +43,18 @@ export const mascotasController = {
 
     async crear (req, res){
         try {
-            const { nombre, especie, raza, sexo, edad, usuario_id, url_imagen, etiquetas}=req.body;
+            const { nombre, especie, raza, sexo, edad, url_imagen, etiquetas}=req.body;
+
+            const usuario_id = req.usuario?.uid;
 
             if(!nombre || !especie || !raza || !sexo || edad === undefined || !usuario_id){
                 return res.status(400).json({ error: 'Porfavor llenar campos obligatorios'});
             }
 
-            const nuevaMascota = await mascotasService.crear(req.body);
+            const nuevaMascota = await mascotasService.crear({
+                ...req.body,
+                usuario_id
+            });
 
             // si mandan url desde front se guarda junto a la mascota
             if(url_imagen){
