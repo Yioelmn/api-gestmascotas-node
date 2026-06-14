@@ -10,7 +10,7 @@ import imagenesRoutes from './routes/imagenesRoutes.js';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 // se añade esto para conectar con las rutas
