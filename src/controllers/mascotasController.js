@@ -1,4 +1,5 @@
 import { mascotasService } from "../services/mascotasService.js";
+import { imagenesService } from "../services/imagenesService.js";
 
 export const mascotasController = {
     async obtenerTodas(req, res){
@@ -42,14 +43,27 @@ export const mascotasController = {
 
     async crear (req, res){
         try {
-            const { nombre, especie, raza, sexo, edad, usuario_id}=req.body;
+            const { nombre, especie, raza, sexo, edad, usuario_id, url_imagen, etiquetas}=req.body;
 
             if(!nombre || !especie || !raza || !sexo || edad === undefined || !usuario_id){
                 return res.status(400).json({ error: 'Porfavor llenar campos obligatorios'});
             }
 
             const nuevaMascota = await mascotasService.crear(req.body);
+
+            // si mandan url desde front se guarda junto a la mascota
+            if(url_imagen){
+                await imagenesService.crear(url_imagen, nuevaMascota.id);
+            }
+            // si mandan array de id de etiquetas se vincula una por una
+            if(etiquetas && etiquetas.length > 0){
+                for(const etiquetaId of etiquetas){
+                    await mascotasService.agregarEtiqueta(nuevaMascota.id, etiquetaId);
+                }
+            }
+
             res.status(201).json(nuevaMascota);
+
         } catch (e) {
             res.status(500).json({ error: 'Error al registrar mascota'});
             
