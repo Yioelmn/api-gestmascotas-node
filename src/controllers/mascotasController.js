@@ -47,7 +47,7 @@ export const mascotasController = {
 
             const usuario_id = req.usuario?.uid;
 
-            if(!nombre || !especie || !raza || !sexo || edad === undefined || !usuario_id){
+            if(!nombre || !especie || !raza || !sexo || edad === undefined || Number.isNaN(edad) || !usuario_id){
                 return res.status(400).json({ error: 'Porfavor llenar campos obligatorios'});
             }
 
