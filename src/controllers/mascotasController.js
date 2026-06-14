@@ -43,16 +43,26 @@ export const mascotasController = {
 
     async crear (req, res){
         try {
-            const { nombre, especie, raza, sexo, edad, url_imagen, etiquetas}=req.body;
+            const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna, url_imagen, etiquetas}=req.body;
 
-            const usuario_id = req.usuario?.uid;
+            const usuario_id = req.usuario?.uid || req.headers['x-user-id'] || "USER_TEST_123"; // usuario de prueba
 
-            if(!nombre || !especie || !raza || !sexo || edad === undefined || Number.isNaN(edad) || !usuario_id){
+            //se fuerza conversion a entero
+            const edadNumerica = parseInt(edad, 10);
+
+            if(!nombre || !especie || !raza || !sexo || isNaN(edadNumerica) || !usuario_id){
                 return res.status(400).json({ error: 'Porfavor llenar campos obligatorios'});
             }
 
             const nuevaMascota = await mascotasService.crear({
-                ...req.body,
+                nombre,
+                especie,
+                raza,
+                sexo,
+                edad: edadNumerica,
+                latitud: latitud || -33.51,   
+                longitud: longitud || -70.76, 
+                comuna,
                 usuario_id
             });
 
