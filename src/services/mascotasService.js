@@ -67,14 +67,14 @@ export const mascotasService = {
 
     // crear mascota
     async crear(datosMascota){
-        const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna } = datosMascota;
+        const {nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id} = datosMascota;
         const resultado = await pool.query(`
-            INSERT INTO mascota (nombre, especie, raza, sexo, edad, latitud, longitud, comuna)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+            INSERT INTO mascota (nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *;
-        `, [nombre, especie, raza, sexo, edad, latitud, longitud, comuna]);
+            `, [nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id]);
 
-        return resultado.rows[0];
+            return resultado.rows[0];
     },
 
     // actualizar mascota
