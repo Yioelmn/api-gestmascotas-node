@@ -25,6 +25,11 @@ const initDB = async () => {
             );
         `);
 
+        // añado esto aqui porque me da cosa hacerlo desde neon
+        await pool.query(`
+            ALTER TABLE mascota ADD COLUMN IF NOT EXIST usuario_id VARCHAR(128);
+        `);
+
         // esta equivale al model de etiquetas
         await pool.query(`
             CREATE TABLE IF NOT EXISTS etiquetas (
