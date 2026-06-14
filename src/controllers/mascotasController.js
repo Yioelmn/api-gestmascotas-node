@@ -24,17 +24,18 @@ export const mascotasController = {
     },
 
     async crear (req, res){
-        try{
-            const{nombre, especie, raza, sexo, edad} = req.body;
-            //validacion de los campos obligatorios
-            if (!nombre || !especie || !raza || !sexo || edad === undefined){
-                return res.status(400).json({ error: 'Porfavor llenar campos obligatorios (nombre, especie, raza, sexo, edad'});
+        try {
+            const { nombre, especie, raza, sexo, edad, usuario_id}=req.body;
+
+            if(!nombre || !especie || !raza || !sexo || edad === undefined || !usuario_id){
+                return res.status(400).json({ error: 'Porfavor llenar campos obligatorios'});
             }
 
             const nuevaMascota = await mascotasService.crear(req.body);
             res.status(201).json(nuevaMascota);
-        }catch(e){
-            res.status(500).json({ error: 'Error al registrar la mascota'});
+        } catch (e) {
+            res.status(500).json({ error: 'Error al registrar mascota'});
+            
         }
     },
 
