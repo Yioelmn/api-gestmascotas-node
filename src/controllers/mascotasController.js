@@ -43,7 +43,7 @@ export const mascotasController = {
 
     async crear (req, res){
         try {
-            const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna, url_imagen, etiquetas}=req.body;
+            const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna, url_imagen, etiquetas} = req.body;
 
             const usuario_id = req.usuario?.uid || req.headers['x-user-id'] || "USER_TEST_123"; // usuario de prueba
 
@@ -66,7 +66,7 @@ export const mascotasController = {
                 usuario_id
             });
 
-            // si mandan url desde front se guarda junto a la mascota
+            // si mandan url desde front se guarda junto a la mascotas
             if(url_imagen){
                 await imagenesService.crear(url_imagen, nuevaMascota.id);
             }
@@ -81,7 +81,6 @@ export const mascotasController = {
 
         } catch (e) {
             res.status(500).json({ error: 'Error al registrar mascota'});
-            
         }
     },
 
@@ -111,7 +110,7 @@ export const mascotasController = {
         }
     },
 
-    // encpoint para vincular etiqueta a mascota
+    // encpoint para vincular etiqueta a mascotas
     async vincularEtiqueta(req, res){
         try{
             const {id} = req.params;
