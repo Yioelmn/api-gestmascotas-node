@@ -44,7 +44,7 @@ export const mascotasController = {
 
     async crear (req, res){
         try {
-            const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna, url_imagen, etiquetas, correoUsuario}=req.body;
+            const { nombre, especie, raza, sexo, edad, latitud, longitud, comuna, url_imagen, etiquetas} = req.body;
 
             const usuario_id = req.usuario?.uid || req.headers['x-user-id'] || "USER_TEST_123"; // usuario de prueba
 
@@ -67,7 +67,7 @@ export const mascotasController = {
                 usuario_id
             });
 
-            // si mandan url desde front se guarda junto a la mascota
+            // si mandan url desde front se guarda junto a la mascotas
             if(url_imagen){
                 await imagenesService.crear(url_imagen, nuevaMascota.id);
             }
@@ -78,24 +78,9 @@ export const mascotasController = {
                 }
             }
 
-            // envio y creacion del correo
-            if (correoUsuario) {
-                const html = `
-                    <h3>Hola, Tu reporte ha sido creado de forma exitosa.</h3>
-                    <p>El reporte de tu mascota <b>${nombre}</b> ya está activo en nuestra aplicación.</p>
-                    <p>Por favor, mantén la calma, estate atento a las novedades y recuerda que la comunidad te está ayudando.</p>
-                    <br>
-                    <p>Atentamente,<br><b>Equipo Sanos y Salvos</b></p>
-                `;
-                // sin await ppara evitar el tiempo de espera de envio del correo
-                enviarCorreo(correoUsuario, "Reporte de mascota: ${nombre} registrado.", html);
-            }
-            return res.status(201).json(nuevaMascota);
-
         } catch (e) {
             console.log(e);
             res.status(500).json({ error: 'Error al registrar mascota'});
-            
         }
     },
 
@@ -125,7 +110,7 @@ export const mascotasController = {
         }
     },
 
-    // encpoint para vincular etiqueta a mascota
+    // encpoint para vincular etiqueta a mascotas
     async vincularEtiqueta(req, res){
         try{
             const {id} = req.params;
