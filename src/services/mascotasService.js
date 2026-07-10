@@ -6,7 +6,6 @@ export const mascotasService = {
         const resultadoMascotas = await pool.query('SELECT * FROM mascota ORDER BY id DESC;');
         const mascotas = resultadoMascotas.rows;
 
-        // aqui se inyecta una imagen y etiqueta en cada mascota
         for(let mascota of mascotas){
             const imgRes = await pool.query('SELECT id, url_imagen FROM imagen_mascota WHERE mascota_id = $1;', [mascota.id]);
             const etiqRes = await pool.query(`
@@ -16,8 +15,9 @@ export const mascotasService = {
                 WHERE me.mascota_id = $1
                 `, [mascota.id]);
 
-                mascota.imagenes = imgRes.rows;
-                mascota.etiquetas = etiqRes.rows;
+            mascota.imagenes = imgRes.rows;
+            mascota.etiquetas = etiqRes.rows;
+            mascota.infoAdicional = mascota.info_adicional || '';
         }
         return mascotas;
     },
@@ -37,8 +37,9 @@ export const mascotasService = {
             const etiqRes = await pool.query(`SELECT e.id, e.nombre_etiqueta
                 FROM etiquetas e JOIN mascota_etiqueta me ON e.id = me.etiqueta_id WHERE me.mascota_id = $1`, [mascota.id]);
 
-                mascota.imagenes = imgRes.rows;
-                mascota.etiquetas = etiqRes.rows;
+            mascota.imagenes = imgRes.rows;
+            mascota.etiquetas = etiqRes.rows;
+            mascota.infoAdicional = mascota.info_adicional || '';
         }
 
         return mascotas;
@@ -61,20 +62,23 @@ export const mascotasService = {
 
         mascota.imagenes = imgRes.rows;
         mascota.etiquetas = etiqRes.rows;
+        mascota.infoAdicional = mascota.info_adicional || '';
 
         return mascota;
     },
 
     // crear mascota
     async crear(datosMascota){
-        const {nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id} = datosMascota;
-        const resultado = await pool.query(`
-            INSERT INTO mascota (nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-            RETURNING *;
-            `, [nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id]);
+        const {nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id, infoAdicional, info_adicional} = datosMascota;
+        const infoAdicionalValor = infoAdicional ?? info_adicional ?? '';
 
-            return resultado.rows[0];
+        const resultado = await pool.query(`
+            INSERT INTO mascota (nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id, info_adicional)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING *;
+            `, [nombre, especie, raza, sexo, edad, latitud, longitud, comuna, usuario_id, infoAdicionalValor]);
+
+        return resultado.rows[0];
     },
 
     // actualizar mascota

@@ -30,6 +30,10 @@ const initDB = async () => {
             ALTER TABLE mascota ADD COLUMN IF NOT EXISTS usuario_id VARCHAR(128);
         `);
 
+        await pool.query(`
+            ALTER TABLE mascota ADD COLUMN IF NOT EXISTS info_adicional TEXT;
+        `);
+
         // esta equivale al model de etiquetas
         await pool.query(`
             CREATE TABLE IF NOT EXISTS etiquetas (
